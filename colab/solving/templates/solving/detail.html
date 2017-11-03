@@ -13,32 +13,56 @@
 </head>
 
 <body>
-<h1>{{ exercice.title }}</h1>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="well well-small">
+        <h1 style="margin: 0px">{{ exercice.title }}</h1>
+        <p>
+          {{ exercice.content }}
+        </p><br>
+      </div>
+    </div>
+  </div>
 
-<p>
-  {{ exercice.content }}
-</p><br>
+  <div class="container">
+    <div class="row justify-content-center">
+      {% for solution in solutions %}
+      <div class="well well-small">
+        <div class="col">
+          <div class="col" align="center">
+            <h2 style="margin: 0px">{{ solution.title }}</h2>
+            {% ratings solution 10 10%}
+          </div>
+          <hr />
+          <p>
+            {{ solution.content }}
+          </p>
+        </div>
+      </div><br>
+      {% endfor %}
+    </div>
+  </div>
 
-{% for solution in solutions %}
-  <div style="border-style:solid">
-    <h2 style="margin: 0px">{{ solution.title }}</h2>
-    {% ratings solution 10 10%}
-    <p>
-      {{ solution.content }}
-    </p>
-  </div><br>
-{% endfor %}
-
-<h1 style="margin: 0px">New Comment</h1>
-<form action="{% url 'solving:postSolution' exercice.id %}" method="post" class="form">
-  {% csrf_token %}
-  {% bootstrap_form form %}
-  {% buttons %}
-    <button type="submit" class="btn btn-primary">
-      {% bootstrap_icon "star" %} Submit
-    </button>
-  {% endbuttons %}
-</form>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="well">
+        <div class="col">
+          <div class="col" align="center">
+            <h1 style="margin: 0px">New Comment</h1>
+          </div>
+            <form action="{% url 'solving:postSolution' exercice.id %}" method="post" class="form">
+              {% csrf_token %}
+              {% bootstrap_form form %}
+              {% buttons %}
+              <button type="submit" class="btn btn-primary">
+                {% bootstrap_icon "star" %} Submit
+              </button>
+              {% endbuttons %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </body>
 </html>
