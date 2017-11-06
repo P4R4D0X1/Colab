@@ -28,9 +28,10 @@ class Exercice(models.Model):
         super().save()
 
 class Solution(models.Model):
+    exercice = models.ForeignKey(Exercice, related_name='solutions', on_delete=models.CASCADE)
     title = models.CharField(max_length=120)
     author = models.ForeignKey(User, editable=False)
-    exercice = models.ForeignKey(Exercice, related_name='solutions', on_delete=models.CASCADE)
+    pub_date = models.DateTimeField('date published')
     content = models.TextField('Content')
     ratings = GenericRelation(Rating, related_query_name='solutions')
 

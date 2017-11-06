@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load mathfilters %}
 
 {% load ratings %}
 {% load bootstrap3 %}
@@ -58,12 +59,18 @@
     {% endblock %}
     {% block rating_detail %}
     {% block rating_average %}
-    <div class="prog"
-    <div class="star-ratings-rating-average">{% trans 'Average: ' %} <span class='star-ratings-rating-value'>{{ rating.average|floatformat:"-2" }}</span></div>
+    <!-- <div class="progress">
+      <div class="progress-bar progress-bar-info" style="width: {{ rating.average|floatformat:"-2"|mul:20 }}%">
+        <span class="sr-only">35% Complete (success)</span>
+      </div>
+      <div class="progress-bar progress-bar-danger" style="width: {{ rating.average|floatformat:"-2"|mul:-20|add:"100" }}%">
+        <span class="sr-only">10% Complete (danger)</span>
+      </div>
+    </div> -->
     {% endblock rating_average %}
-    {% block rating_count %}
+    <!-- {% block rating_count %}
     <div class="star-ratings-rating-count">{% trans 'Rating Count: ' %} <span class='star-ratings-rating-value'>{{ rating.count }}</span></div>
-    {% endblock rating_count %}
+    {% endblock rating_count %} -->
     <div class="star-ratings-errors"></div>
     {% endblock rating_detail %}
 </div>

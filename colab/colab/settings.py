@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'star_ratings',
     'captcha',
     'bootstrap3',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
