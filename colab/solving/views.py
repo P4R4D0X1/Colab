@@ -1,9 +1,12 @@
+import sys
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Exercice, Solution
+from django.utils import timezone
+from .models import Exercice, Solution, Category
 from .forms import PostSolutionForm
+
 #for setting an access rules on a view u should use @login_required
 
 @login_required
@@ -19,7 +22,7 @@ def detail(request, exercice_id):
 
     context = {
         'exercice': exercice,
-        'solutions': Solution.objects.filter(exercice=exercice.id).select_related().order_by('ratings'),
+        'solutions': Solution.objects.filter(exercice=exercice.id).select_related().order_by('-ratings__average'),
         'form': form,
     }
 
@@ -33,9 +36,51 @@ def postSolution(request, exercice_id):
         form = PostSolutionForm(request.POST)
 
         if form.is_valid():
+            print("Form is valid", file=sys.stderr)
             solution = form.save(commit=False)
             solution.author = request.user
             solution.exercice = exercice
+            solution.pub_date = timezone.now()
             solution.save()
+        else:
+            print("Form isn't valid", file=sys.stderr)
+            return render(request, 'solving/errostormshit.html', {'form': form})
 
     return HttpResponseRedirect(reverse('solving:detail', args=(exercice_id,)))
+
+
+@login_required
+def deleteSolution(request, solution_id):
+    solution = get_object_or_404(Solution, pk=solution_id)
+    exercice_id = solution.exercice.id
+
+    if (solution.author == request.user):
+        solution.delete()
+
+    return HttpResponseRedirect(reverse('solving:detail', args=(exercice_id,)))
+
+
+
+@login_required
+def show_category(request,hierarchy= None):
+    category_slug = hierarchy.split('/')
+    parent = None
+    root = Category.objects.all()
+    exercices = Category.objects.all()
+
+    for slug in category_slug[:-1]:
+        parent = root.get(parent=parent, slug = slug)
+
+    try:
+        instance = Category.objects.get(parent=parent,slug=category_slug[-1])
+        exercices = Exercice.objects.filter(category=instance)
+    except:
+        instance = get_object_or_404(Exercice, slug = category_slug[-1])
+        return HttpResponseRedirect(reverse('solving:detail', args=(instance.id,)))
+    else:
+        return render(request, 'solving/categories.html', {'instance': instance, 'exercices': exercices})
+
+@login_required
+def category_index(request):
+    instance = Category.objects.filter(parent_id=None)
+    return render(request, 'solving/errostormshit.html', {'instance':instance})

@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'mptt',
     'star_ratings',
     'captcha',
-    'bootstrap3',
     'mathfilters',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +138,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/   '
 
+
 # MPTT Configuration
 
 MPTT_ADMIN_LEVEL_INDENT = 20
+
+
+#reCaptcha
+
+RECAPTCHA_PUBLIC_KEY = 'MyRecaptchaKey123'
+RECAPTCHA_PRIVATE_KEY = 'MyRecaptchaPrivateKey456'

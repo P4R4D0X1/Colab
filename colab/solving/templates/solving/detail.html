@@ -1,5 +1,7 @@
 {% load static %}
 
+{% load namify %}
+
 {% load ratings %}
 {% load bootstrap3 %}
 
@@ -13,6 +15,16 @@
 </head>
 
 <body>
+
+<ul class="breadcrumbs">
+    <li><a href="/">Home</a></li>
+
+    {% for i in instance.category.get_slug_list %}
+       <li><a href="/category/{{ i }}">{{ i | get_name }}</a></li>
+    {% endfor %}
+
+</ul>
+
   <div class="container">
     <div class="row justify-content-center">
       <div class="well well-small">
@@ -31,7 +43,20 @@
         <div class="col">
           <div class="col" align="center">
             <h2 style="margin: 0px">{{ solution.title }}</h2>
+            <p class="text-muted">
+              {{ solution.author }} | {{ solution.pub_date }}
+            </p>
             {% ratings solution 10 10%}
+            {%if user.is_authenticated and user == solution.author %}
+              <form action="{% url 'solving:deleteSolution' solution.id %}" method="post">
+                {% csrf_token %}
+                {% buttons %}
+                  <button  type="submit" class="btn btn-xs btn-danger">
+                    {% bootstrap_icon "remove" %} Remove
+                  </button>
+                {% endbuttons %}
+              </form>
+            {% endif %}
           </div>
           <hr />
           <p>
@@ -48,14 +73,14 @@
       <div class="well">
         <div class="col">
           <div class="col" align="center">
-            <h1 style="margin: 0px">New Comment</h1>
+            <h1 style="margin: 0px">New Solution</h1>
           </div>
-            <form action="{% url 'solving:postSolution' exercice.id %}" method="post" class="form">
+            <form action="{% url 'solving:postSolution' exercice.id %}" method="POST" class="form">
               {% csrf_token %}
               {% bootstrap_form form %}
               {% buttons %}
-              <button type="submit" class="btn btn-primary">
-                {% bootstrap_icon "star" %} Submit
+              <button type="submit" class="btn btn-success">
+                {% bootstrap_icon "ok" %} Submit
               </button>
               {% endbuttons %}
             </form>
