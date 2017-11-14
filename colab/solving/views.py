@@ -11,7 +11,6 @@ from django.conf import settings
 from .models import Exercice, Solution, Category
 from .forms import PostSolutionForm
 
-#for setting an access rules on a view u should use @login_required
 
 @login_required
 def index(request):
@@ -87,3 +86,7 @@ def deleteSolution(request, solution_id):
         solution.delete()
 
     return HttpResponseRedirect(reverse('solving:detail', args=(exercice_id,)))
+
+@login_required
+def protected_serve(request, path, document_root=None, show_indexes=False):
+    return serve(request, path, document_root, show_indexes)

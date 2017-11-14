@@ -1,4 +1,6 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
+from django.views.static import serve
+from django.conf import settings
 
 from . import views
 
@@ -9,5 +11,5 @@ urlpatterns = [
         url(r'^(?P<exercice_id>[0-9]+)/post_solution/$', views.postSolution, name='postSolution'),
         url(r'^(?P<solution_id>[0-9]+)/delete_solution/$', views.deleteSolution, name='deleteSolution'),
         url(r'^category/(?P<hierarchy>.+)/$', views.show_category, name='category'),
-            url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], protected_serve, {'document_root': settings.MEDIA_ROOT}),
+        url(r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:], views.protected_serve, {'document_root': settings.MEDIA_ROOT}),
 ]
