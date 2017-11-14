@@ -1,33 +1,28 @@
-{% load static %}
+{% extends 'solving/base.html' %}
 
+{% load static %}
+{% load ratings %}
 {% load namify %}
 
-{% load ratings %}
-{% load bootstrap3 %}
-
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-<html>
-<head>
+{% block head %}
   <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
   <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
-</head>
+{% endblock %}
 
-<body>
+{% block breadcrumb %}
+  <ol class="breadcrumb">
+      <li><a href="/solving/">Home</a></li>
 
-<ul class="breadcrumbs">
-    <li><a href="/">Home</a></li>
+      {% for i in exercice.category.get_slug_list %}
+         <li><a href="/solving/category/{{ i }}">{{ i | get_name }}</a></li>
+      {% endfor %}
+  </ol>
+{% endblock %}
 
-    {% for i in instance.category.get_slug_list %}
-       <li><a href="/category/{{ i }}">{{ i | get_name }}</a></li>
-    {% endfor %}
-
-</ul>
-
+{% block content %}
   <div class="container">
     <div class="row justify-content-center">
-      <div class="well well-small">
+      <div class="well well-smaqqll">
         <h1 style="margin: 0px">{{ exercice.title }}</h1>
         <p>
           {{ exercice.content }}
@@ -39,31 +34,26 @@
   <div class="container">
     <div class="row justify-content-center">
       {% for solution in solutions %}
-      <div class="well well-small">
-        <div class="col">
-          <div class="col" align="center">
-            <h2 style="margin: 0px">{{ solution.title }}</h2>
-            <p class="text-muted">
-              {{ solution.author }} | {{ solution.pub_date }}
-            </p>
-            {% ratings solution 10 10%}
-            {%if user.is_authenticated and user == solution.author %}
-              <form action="{% url 'solving:deleteSolution' solution.id %}" method="post">
-                {% csrf_token %}
-                {% buttons %}
-                  <button  type="submit" class="btn btn-xs btn-danger">
-                    {% bootstrap_icon "remove" %} Remove
-                  </button>
-                {% endbuttons %}
-              </form>
-            {% endif %}
+        <div class="col-md-auto">
+          <div class="card" style="width: 20rem;">
+            <div class="card-body">
+              <h4 class="card-title">{{ solution.title }}</h4>
+              <h6 class="card-subtitle mb-2 text-muted">  {{ solution.author }} | {{ solution.pub_date }}</h6>
+              {% ratings solution 10 10%}
+              {%if user.is_authenticated and user == solution.author %}
+                <form action="{% url 'solving:deleteSolution' solution.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              {% endif %}
+              <p class="card-text">{{ solution.content }}</p>
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
           </div>
-          <hr />
-          <p>
-            {{ solution.content }}
-          </p>
         </div>
-      </div><br>
+        <div class="w-100"></div>
+        <br />
       {% endfor %}
     </div>
   </div>
@@ -75,19 +65,18 @@
           <div class="col" align="center">
             <h1 style="margin: 0px">New Solution</h1>
           </div>
-            <form action="{% url 'solving:postSolution' exercice.id %}" method="POST" class="form">
-              {% csrf_token %}
-              {% bootstrap_form form %}
-              {% buttons %}
-              <button type="submit" class="btn btn-success">
-                {% bootstrap_icon "ok" %} Submit
-              </button>
-              {% endbuttons %}
-            </form>
-          </div>
+          <form action="{% url 'solving:postSolution' exercice.id %}" method="post" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            {{ form }}
+            <!-- <div class="form-group">
+              <label for="exampleFormControlTextarea1">Example textarea</label>
+              <textarea class="form-control" name="content"  required id="id_content"></textarea>
+            </div> -->
+            <button type="submit" class="btn btn-success">
+            </button>
+          </form>
         </div>
       </div>
     </div>
-
-</body>
-</html>
+  </div>
+{% endblock %}

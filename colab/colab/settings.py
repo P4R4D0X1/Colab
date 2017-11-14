@@ -132,11 +132,11 @@ STATIC_URL = '/static/'
 # Rien à raconter
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/accounts/login/   '
+LOGIN_URL = '/accounts/login/'
 
 
 # MPTT Configuration

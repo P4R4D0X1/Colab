@@ -1,9 +1,40 @@
-{% if latest_exercice_list %}
-<ul>
-{% for exercice in latest_exercice_list %}
-  <li><a href="{% url 'solving:detail' exercice.id %}">{{ exercice.title }}</a></li>
-{% endfor %}
-</ul>
-{% else %}
-<p>No exercices are available.</p>
-{% endif %}
+{% extends 'solving/base.html' %}
+
+{% block breadcrumb %}
+  <div class="text-center">
+    <ol class="breadcrumb">
+      <li><a href="/solving/">Home</a></li>
+    </ol>
+  </div>
+{% endblock %}
+
+{% block subcat %}
+  {% if  categories.all %}
+    <div class="container">
+      <div class="row">
+        {% for i in categories %}
+          <div class="col-md-3">
+            <a href="category/{{ i.slug }}"> {{ i.name }} </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <br><hr>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-md-center">
+  <div class="col-12 col-md-auto">
+    {% if latest_exercice_list %}
+      <ul>
+        {% for exercice in latest_exercice_list %}
+          <li><a href="{% url 'solving:detail' exercice.id %}">{{ exercice.title }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No exercices are available.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

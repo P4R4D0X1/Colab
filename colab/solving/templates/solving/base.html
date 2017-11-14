@@ -1,17 +1,21 @@
-{% load staticfiles %}
-{% load bootstrap3 %}
+{% load static %}
 
-{% bootstrap_css %}
-{% bootstrap_javascript %}
 
 <html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    {% block head %}
+    {% endblock %}
+  </head>
   <body>
+    {% block breadcrumb %}
+    {% endblock %}
     <div class="page-header">
-      <h1><a href="/">COLAB</a></h1>
+      <h1><a href="/solving/">COLAB</a></h1>
     </div>
-    <div class="content container">
-      <div class="row">
-        <div class="col-md-8">
+    {% block subcat %}
+    {% endblock %}
+    <div class="container">
           {% block content %}
           {% endblock %}
         </div>

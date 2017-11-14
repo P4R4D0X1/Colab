@@ -15,6 +15,7 @@ class Exercice(models.Model):
     category = TreeForeignKey('Category', null=True, blank=True)
     pub_date = models.DateTimeField('date published', default=datetime.now())
     slug = models.SlugField(max_length=140, unique=True, blank=True, null=True)
+    file = models.FileField(upload_to="exercice_files/", null=True)
 
     def __str__(self):
         return self.title
@@ -32,6 +33,18 @@ class Exercice(models.Model):
         if not self.slug:
             self.slug = self.get_unique_slug()
         super().save()
+
+class Solution(models.Model):
+    exercice = models.ForeignKey(Exercice, related_name='solutions', on_delete=models.CASCADE)
+    title = models.CharField(max_length=120)
+    author = models.ForeignKey(User, editable=False)
+    pub_date = models.DateTimeField('date published', default=datetime.now())
+    content = models.TextField('Content')
+    ratings = GenericRelation(Rating, related_query_name='solutions')
+    file = models.FileField(upload_to="solution_files/", null=True)
+
+    def __str__(self):
+        return self.title
 
 class Category(MPTTModel):
     name = models.CharField(max_length=50, unique=True)
@@ -73,25 +86,3 @@ class Category(MPTTModel):
         if not self.slug:
             self.slug = self.get_unique_slug()
         super().save()
-
-class Solution(models.Model):
-    exercice = models.ForeignKey(Exercice, related_name='solutions', on_delete=models.CASCADE)
-    title = models.CharField(max_length=120)
-    author = models.ForeignKey(User, editable=False)
-    pub_date = models.DateTimeField('date published', default=datetime.now())
-    content = models.TextField('Content')
-    ratings = GenericRelation(Rating, related_query_name='solutions')
-
-    def __str__(self):
-        return self.title
-
-    # def save_model(self, request, obj, form, change):
-    #     if not obj.author.id:
-    #         obj.author = request.user
-    #     obj.save()
-
-    """
-    On pourra donc lister les commentaires d'un post via Solution.objects.filter(Exercice=self.object.id).select_related()
-    """
-
-#Solution.objects.filter(rating__isnull=False).order_by('ratings__average')
