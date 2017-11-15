@@ -3,15 +3,13 @@
 {% load namify %}
 
 {% block breadcrumb %}
-  <div class="text-center">
-    <h2>{{ instance.name }}</h2>
     <ol class="breadcrumb">
-      <li><a href="/solving/">Home</a></li>
+      <li><a href="{% url 'solving:index' %}">Home</a></li>
+
       {% for i in instance.get_slug_list %}
-         <li><a href="/solving/category/{{ i }}">{{ i | get_name }}</a></li>
+         <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
       {% endfor %}
     </ol>
-  </div>
 {% endblock %}
 
 {% block subcat %}
@@ -48,5 +46,27 @@
       </div>
     </div>
   {% endfor %}
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="well">
+        <div class="col">
+          <div class="col" align="center">
+            <h1 style="margin: 0px">New Exercice</h1>
+          </div>
+          <form action="{% url 'solving:postExercice' instance.id %}" method="post" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            {{ form }}
+            <!-- <div class="form-group">
+              <label for="exampleFormControlTextarea1">Example textarea</label>
+              <textarea class="form-control" name="content"  required id="id_content"></textarea>
+            </div> -->
+            <button type="submit" class="btn btn-success">
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

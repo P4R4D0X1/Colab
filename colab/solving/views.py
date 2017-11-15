@@ -9,7 +9,7 @@ from django.views.static import serve
 from django.conf import settings
 
 from .models import Exercice, Solution, Category
-from .forms import PostSolutionForm
+from .forms import PostSolutionForm, PostExerciceForm
 
 
 @login_required
@@ -41,6 +41,7 @@ def show_category(request,hierarchy= None):
     parent = None
     root = Category.objects.all()
     exercices = Category.objects.all()
+    form = PostExerciceForm()
 
     for slug in category_slug[:-1]:
         parent = root.get(parent=parent, slug = slug)
@@ -52,7 +53,7 @@ def show_category(request,hierarchy= None):
         instance = get_object_or_404(Exercice, slug = category_slug[-1])
         return HttpResponseRedirect(reverse('solving:detail', args=(instance.id,)))
     else:
-        return render(request, 'solving/categories.html', {'instance': instance, 'exercices': exercices})
+        return render(request, 'solving/categories.html', {'instance': instance, 'exercices': exercices, 'form': form,})
 
 @login_required
 def postSolution(request, exercice_id):
@@ -68,13 +69,33 @@ def postSolution(request, exercice_id):
             solution.author = request.user
             solution.exercice = exercice
             solution.pub_date = timezone.now()
-            solution.file = form.file
+            solution.file = form.cleaned_data['file']
             solution.save()
         else:
             print("Form isn't valid", file=sys.stderr)
             return render(request, 'solving/errostormshit.html', {'form': form})
 
     return HttpResponseRedirect(reverse('solving:detail', args=(exercice_id,)))
+
+@login_required
+def postExercice(request, category_id):
+    #TODO tester la securité de l'url et voir si la category peut host des exos
+    category = get_object_or_404(Category, pk=category_id)
+
+    if request.method == 'POST':
+        form = PostExerciceForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            exercice = form.save(commit=False)
+            exercice.author = request.user
+            exercice.category = category
+            exercice.pub_date = timezone.now()
+            exercice.file = form.cleaned_data['file']
+            exercice.save()
+        else:
+            return render(request, 'solving/errostormshit.html', {'form': form})
+
+    return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required

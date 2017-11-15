@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^solving/', include('solving.urls')),
+    url(r'^solving/', include('solving.urls'), name='solving'),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^captcha/', include('captcha.urls')),

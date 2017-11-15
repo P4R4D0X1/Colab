@@ -11,6 +11,7 @@ from star_ratings.models import Rating
 
 class Exercice(models.Model):
     title = models.CharField(max_length=120)
+    author = models.ForeignKey(User, editable=False, null=True)
     content = models.TextField('Content')
     category = TreeForeignKey('Category', null=True, blank=True)
     pub_date = models.DateTimeField('date published', default=datetime.now())
@@ -48,6 +49,7 @@ class Solution(models.Model):
 
 class Category(MPTTModel):
     name = models.CharField(max_length=50, unique=True)
+    have_exercice = models.BooleanField(default=1)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     slug = models.SlugField(null=True)
 
@@ -60,6 +62,9 @@ class Category(MPTTModel):
 
     def __str__(self):
         return self.name
+
+    def contain_exercice(self):
+        return bool(self.have_exercice)
 
     def get_unique_slug(self):
         slug = slugify(self.name)

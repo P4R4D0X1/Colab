@@ -11,10 +11,10 @@
 
 {% block breadcrumb %}
   <ol class="breadcrumb">
-      <li><a href="/solving/">Home</a></li>
+      <li><a href="{% url 'solving:index' %}">Home</a></li>
 
       {% for i in exercice.category.get_slug_list %}
-         <li><a href="/solving/category/{{ i }}">{{ i | get_name }}</a></li>
+         <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
       {% endfor %}
   </ol>
 {% endblock %}
@@ -27,7 +27,7 @@
         <p>
           {{ exercice.content }}
         </p><br>
-        <a href="/{{ exercice.file.name }}">jeej</a>
+        <a href="{% url 'solving:protected_serve' exercice.file.name %}" download="exercice.file.name">jeej</a>
       </div>
     </div>
   </div>
