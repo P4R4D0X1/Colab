@@ -7,8 +7,6 @@ from datetime import datetime
 from mptt.models import MPTTModel, TreeForeignKey
 from star_ratings.models import Rating
 
-
-
 class Exercice(models.Model):
     title = models.CharField(max_length=120)
     author = models.ForeignKey(User, editable=False, null=True)

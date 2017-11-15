@@ -82,18 +82,19 @@ def postExercice(request, category_id):
     #TODO tester la securité de l'url et voir si la category peut host des exos
     category = get_object_or_404(Category, pk=category_id)
 
-    if request.method == 'POST':
-        form = PostExerciceForm(request.POST, request.FILES)
+    if(category.contain_exercice()):
+        if request.method == 'POST':
+            form = PostExerciceForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            exercice = form.save(commit=False)
-            exercice.author = request.user
-            exercice.category = category
-            exercice.pub_date = timezone.now()
-            exercice.file = form.cleaned_data['file']
-            exercice.save()
-        else:
-            return render(request, 'solving/errostormshit.html', {'form': form})
+            if form.is_valid():
+                exercice = form.save(commit=False)
+                exercice.author = request.user
+                exercice.category = category
+                exercice.pub_date = timezone.now()
+                exercice.file = form.cleaned_data['file']
+                exercice.save()
+            else:
+                return render(request, 'solving/errostormshit.html', {'form': form})
 
     return redirect(request.META['HTTP_REFERER'])
 

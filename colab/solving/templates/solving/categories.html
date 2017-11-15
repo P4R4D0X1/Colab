@@ -1,15 +1,22 @@
 {% extends 'solving/base.html' %}
 
+{% load static %}
+{% load ratings %}
 {% load namify %}
 
-{% block breadcrumb %}
-    <ol class="breadcrumb">
-      <li><a href="{% url 'solving:index' %}">Home</a></li>
+{% block head %}
+  <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+  <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+{% endblock %}
 
-      {% for i in instance.get_slug_list %}
-         <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
-      {% endfor %}
-    </ol>
+{% block breadcrumb %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'solving:index' %}">Home</a></li>
+
+    {% for i in instance.get_slug_list %}
+    <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
+    {% endfor %}
+  </ol>
 {% endblock %}
 
 {% block subcat %}

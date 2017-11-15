@@ -11,11 +11,11 @@
 
 {% block breadcrumb %}
   <ol class="breadcrumb">
-      <li><a href="{% url 'solving:index' %}">Home</a></li>
+    <li><a href="{% url 'solving:index' %}">Home</a></li>
 
-      {% for i in exercice.category.get_slug_list %}
-         <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
-      {% endfor %}
+    {% for i in exercice.category.get_slug_list %}
+    <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
+    {% endfor %}
   </ol>
 {% endblock %}
 
