@@ -6,77 +6,96 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+  <link rel="stylesheet" href="{% static 'solving/css/category.css' %}">
   <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumb %}
   <ol class="breadcrumb">
-    <li><a href="{% url 'solving:index' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'solving:index' %}">Home</a></li>
 
     {% for i in exercice.category.get_slug_list %}
-    <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
     {% endfor %}
   </ol>
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="well well-smaqqll">
-        <h1 style="margin: 0px">{{ exercice.title }}</h1>
-        <p>
-          {{ exercice.content }}
-        </p><br>
-        <a href="{% url 'solving:protected_serve' exercice.file.name %}" download="exercice.file.name">jeej</a>
+
+<div class="container">
+  <div class="row justify-content-center wrath-content-box">
+    <div class="col-12 d-flex justify-content-center" >
+      <div class="card text-black bg-light border-primary mb-3 w-100">
+        <div class="card-header exercice-header">
+          <h4 class="card-title text-center">{{ exercice.title }}</h4>
+        </div>
+
+        <div class="card-block exercice-content">
+          <p class="card-text">{{ exercice.content | linebreaks }}</p>
+        </div>
+        <div class="card-block exercice-content text-center">
+          <a href="{% url 'solving:protected_serve' exercice.file.name %}" download="{{ exercice.file.name }}" class="btn btn-outline-primary btn-sm" role="button">Download</a>
+        </div>
+        <small class="card-footer text-muted text-center">{{ exercice.author }} | {{ exercice.pub_date }}</small>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="container">
-    <div class="row justify-content-center">
-      {% for solution in solutions %}
-        <div class="col-md-auto">
-          <div class="card" style="width: 20rem;">
-            <div class="card-body">
-              <h4 class="card-title">{{ solution.title }}</h4>
-              <h6 class="card-subtitle mb-2 text-muted">  {{ solution.author }} | {{ solution.pub_date }}</h6>
-              {% ratings solution 10 10%}
-              {%if user.is_authenticated and user == solution.author %}
-                <form action="{% url 'solving:deleteSolution' solution.id %}" method="post">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-              {% endif %}
-              <p class="card-text">{{ solution.content }}</p>
-              <a href="#" class="card-link">Card link</a>
-            </div>
-          </div>
-        </div>
-        <div class="w-100"></div>
-        <br />
-      {% endfor %}
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="well">
-        <div class="col">
-          <div class="col" align="center">
-            <h1 style="margin: 0px">New Solution</h1>
-          </div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="well">
+      <div class="col">
+        <div class="col-12 d-flex justify-content-center">
+          <h1 style="margin: 0px">New Solution</h1>
           <form action="{% url 'solving:postSolution' exercice.id %}" method="post" enctype="multipart/form-data" class="form">
             {% csrf_token %}
-            {{ form }}
-            <!-- <div class="form-group">
-              <label for="exampleFormControlTextarea1">Example textarea</label>
-              <textarea class="form-control" name="content"  required id="id_content"></textarea>
-            </div> -->
+            <div class="form-group">
+              {{ form.title }}
+            </div>
+            <div class="form-group">
+              {{ form.content }}
+            </div>
+            <div class="fileUpload btn btn-primary">
+              <span>Upload</span>
+              {{ form.file }}
+            </div>
+            <div class="form-group">
+              {{ form.captcha }}
+            </div>
             <button type="submit" class="btn btn-success">
+              Submit
             </button>
           </form>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+  <div class="container">
+    {% for solution in solutions %}
+      {%if user.is_authenticated and user == solution.author %}
+        <form id="deleteForm{{ solution.id }}" action="{% url 'solving:deleteSolution' solution.id %}" method="post">
+          {% csrf_token %}
+        </form>
+      {% endif %}
+      <div class="row justify-content-center wrath-content-box">
+        <div class="col-10 d-flex justify-content-center">
+          <div class="card text-black bg-light mb-3 w-75">
+            <div class="card-header exercice-header">
+              <h4 class="card-title text-center">{{ solution.title }} </br>{% ratings solution 10 10%}</h4>
+            </div>
+            <div class="card-block exercice-content">
+              <p class="card-text">{{ solution.content | linebreaks }}</p>
+            </div>
+            <div class="card-block exercice-content text-center">
+                <a href="{% url 'solving:protected_serve' solution.file.name %}" download="{{ solution.file.name }}" class="btn btn-outline-primary btn-sm" role="button">Download</a>
+            </div>
+            <small class="card-footer text-muted text-center">{{ solution.author }} | {{ solution.pub_date }}</small>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}

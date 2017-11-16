@@ -1,20 +1,30 @@
 {% load static %}
-
+{% load ratings %}
+{% load namify %}
 
 <html>
   <head>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 
     {% block head %}
     {% endblock %}
   </head>
   <body>
-    {% block breadcrumb %}
-    {% endblock %}
-    <div class="page-header">
-      <h1><a href="/solving/">COLAB</a></h1>
+    <div class="container">
+      <div class="row justify-content-center">
+        <img src="{% static 'solving/image/logo_colab_2_small.png' %}" class="img-fluid" alt="Responsive image">
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-6" align="center">
+          {% block breadcrumb %}
+          {% endblock %}
+        </div>
+      </div>
     </div>
+
     {% block subcat %}
     {% endblock %}
     <div class="container">

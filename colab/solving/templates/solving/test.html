@@ -1,0 +1,115 @@
+
+
+
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/static/star-ratings/css/star-ratings.css">
+  <script type="text/javascript" src="/static/star-ratings/js/dist/star-ratings.min.js"></script>
+
+</head>
+<body>
+
+  <ol class="breadcrumb">
+    <li><a href="/solving/">Home</a></li>
+
+
+    <li><a href="/solving/category/4a/">4a</a></li>
+
+    <li><a href="/solving/category/4a/lab4413-tp-reseaux/">lab4413 tp reseaux</a></li>
+
+  </ol>
+
+  <div class="page-header">
+    <h1><a href="/solving/">COLAB</a></h1>
+  </div>
+
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-3">
+        <a href="test"> test </a>
+      </div>
+
+    </div>
+  </div>
+  <br><hr>
+
+
+  <div class="container">
+
+    <div class="row justify-content-md-center">
+      <div class="col-12 col-md-auto">
+
+        <div class="col">
+          <div class="card">
+            <div class="card-block">
+              <a href="tp-arp"><h4 class="card-title">Tp ARP</h4></a>
+              <h6 class="card-subtitle mb-2 text-muted">Nov. 15, 2017, 1:52 a.m.</h6>
+
+              <div class="card-section">
+                <p>mdr le sujet d'arp</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card">
+        <div class="card-block">
+          <a href="exam-de-reseau"><h4 class="card-title">Exam de reseau</h4></a>
+          <h6 class="card-subtitle mb-2 text-muted">Nov. 14, 2017, 4:42 p.m.</h6>
+
+          <div class="card-section">
+            <p>Thread pour resoudre le sujet d'exa de reseau</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="well">
+      <div class="col">
+        <div class="col" align="center">
+          <h1 style="margin: 0px">New Exercice</h1>
+        </div>
+        <form action="/solving/6/post_exercice/" method="post" enctype="multipart/form-data" class="form">
+          <input type='hidden' name='csrfmiddlewaretoken' value='SjDbKkDGZ7UzYTfb4Tjs2pbmgtZlGQFHRudaoMnsiCqq4EvDGgeNWUvCGoFtqxgv' />
+          <tr><th><label for="id_title">Title:</label></th><td><input type="text" name="title" maxlength="120" required id="id_title" /></td></tr>
+          <tr><th><label for="id_content">Content:</label></th><td><textarea name="content" cols="40" rows="10" required id="id_content">
+          </textarea></td></tr>
+          <tr><th><label for="id_file">File:</label></th><td><input type="file" name="file" required id="id_file" /></td></tr>
+          <tr><th><label for="id_captcha_1">Captcha:</label></th><td><br />
+
+            <img src="/captcha/image/4c17e4a5af66d1d4fd45ceebf376297e768b9fe8/" alt="captcha" class="captcha" />
+            <input id="id_captcha_0" name="captcha_0" type="hidden" value="4c17e4a5af66d1d4fd45ceebf376297e768b9fe8" />
+
+            <input autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="id_captcha_1" name="captcha_1" type="text" />
+
+          </td></tr>
+          <!-- <div class="form-group">
+          <label for="exampleFormControlTextarea1">Example textarea</label>
+          <textarea class="form-control" name="content"  required id="id_content"></textarea>
+        </div> -->
+        <button type="submit" class="btn btn-success">
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+</body>
+</html>

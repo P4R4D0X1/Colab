@@ -6,25 +6,25 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
-  <link rel="stylesheet" href="{% static 'solving/css/category.css'}">
   <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumb %}
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'solving:index' %}">Home</a></li>
+    <li><a href="{% url 'solving:index' %}">Home</a></li>
 
-    {% for i in category.get_slug_list %}
-    <li class="breadcrumb-item"><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
+    {{ instance.get_slug_list }}
+    {% for i in instance.get_slug_list %}
+    <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
     {% endfor %}
   </ol>
 {% endblock %}
 
 {% block subcat %}
-  {% if  category.children.all %}
+  {% if  instance.children.all %}
     <div class="container">
       <div class="row">
-        {% for i in category.children.all %}
+        {% for i in instance.children.all %}
           <div class="col-md-3">
             <a href="{{ i.slug }}"> {{ i.name }} </a>
           </div>
@@ -62,7 +62,7 @@
           <div class="col" align="center">
             <h1 style="margin: 0px">New Exercice</h1>
           </div>
-          <form action="{% url 'solving:postExercice' category.id %}" method="post" enctype="multipart/form-data" class="form">
+          <form action="{% url 'solving:postExercice' instance.id %}" method="post" enctype="multipart/form-data" class="form">
             {% csrf_token %}
             {{ form }}
             <!-- <div class="form-group">

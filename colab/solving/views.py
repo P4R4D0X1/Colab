@@ -53,7 +53,7 @@ def show_category(request,hierarchy= None):
         instance = get_object_or_404(Exercice, slug = category_slug[-1])
         return HttpResponseRedirect(reverse('solving:detail', args=(instance.id,)))
     else:
-        return render(request, 'solving/categories.html', {'instance': instance, 'exercices': exercices, 'form': form,})
+        return render(request, 'solving/categories.html', {'category': instance, 'exercices': exercices, 'form': form,})
 
 @login_required
 def postSolution(request, exercice_id):
