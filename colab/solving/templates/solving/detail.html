@@ -42,36 +42,46 @@
   </div>
 </div>
 
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="well">
-      <div class="col">
-        <div class="col-12 d-flex justify-content-center">
-          <h1 style="margin: 0px">New Solution</h1>
-          <form action="{% url 'solving:postSolution' exercice.id %}" method="post" enctype="multipart/form-data" class="form">
-            {% csrf_token %}
-            <div class="form-group">
-              {{ form.title }}
-            </div>
-            <div class="form-group">
-              {{ form.content }}
-            </div>
-            <div class="fileUpload btn btn-primary">
-              <span>Upload</span>
-              {{ form.file }}
-            </div>
-            <div class="form-group">
-              {{ form.captcha }}
-            </div>
-            <button type="submit" class="btn btn-success">
-              Submit
-            </button>
-          </form>
+<input type="checkbox" id="my_checkbox" style="display:none;">
+
+
+
+<div id="hidden">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="well">
+        <div class="col">
+          <div class="col-12 d-flex justify-content-center">
+            <h1>New Solution</h1><br />
+          </div>
+          <div class="col-12 d-flex justify-content-center" align="center">
+            <form action="{% url 'solving:postSolution' exercice.id %}" method="post" enctype="multipart/form-data" class="form">
+              {% csrf_token %}
+              <div class="form-group">
+                {{ form.title }}
+              </div>
+              <div class="form-group">
+                {{ form.content }}
+              </div>
+              <div class="fileUpload btn btn-primary">
+                <span>Upload</span>
+                {{ form.file }}
+              </div>
+              <div class="form-group">
+                {{ form.captcha }}
+              </div>
+              <button type="submit" class="btn btn-success">
+                Submit
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<label for="my_checkbox">Show/hide</label>
 
   <div class="container">
     {% for solution in solutions %}

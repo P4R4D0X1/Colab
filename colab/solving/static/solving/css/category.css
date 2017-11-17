@@ -41,3 +41,10 @@ html, body{
     opacity: 0;
     filter: alpha(opacity=0);
 }
+
+#hidden {
+  display: none;
+}
+:checked + #hidden {
+  display: block;
+}
