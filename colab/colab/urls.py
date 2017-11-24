@@ -15,10 +15,18 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.views.generic import RedirectView
+
+from . import views
+from .forms import MyAuthenticationForm
 
 urlpatterns = [
+    url(r'^$', RedirectView.as_view(url='solving/'), name="home"),
     url(r'^solving/', include('solving.urls'), name='solving'),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/login/$', auth_views.login, {'template_name': 'registration/login.html', 'authentication_form': MyAuthenticationForm}, name='login'),
+    url(r'^signup/$', views.signup, name='signup'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),

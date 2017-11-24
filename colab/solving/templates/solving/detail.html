@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'solving:index' %}">Home</a></li>
+  <ol class="breadcrumb  navbar-dark bg-dark class=" text-white"">
+    <li class="breadcrumb-item"><a class="text-white" href="{% url 'solving:index' %}">Home</a></li>
 
     {% for i in exercice.category.get_slug_list %}
-    <li class="breadcrumb-item"><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
+    <li class="breadcrumb-item"><a class="text-white" href="{% url 'solving:category' i %}">{{ i | get_name|upper }}</a></li>
     {% endfor %}
   </ol>
 {% endblock %}
@@ -25,11 +25,17 @@
 <div class="container">
   <div class="row justify-content-center wrath-content-box">
     <div class="col-12 d-flex justify-content-center" >
+      <h1 class="display-3">SUBJECT</h1>
+    </div>
+    <div class="col-12 d-flex justify-content-center" >
       <div class="card text-black bg-light border-primary mb-3 w-100">
         <div class="card-header exercice-header">
           <h4 class="card-title text-center">{{ exercice.title }}</h4>
+          <h6 class="card-title text-center">
+            <p><span class="bg-success border border-dark text-white rounded-top"><a class="whitelink" href="{% url 'solving:editExercice' exercice.id %}">EDIT</a></span>
+              <span class="bg-danger border border-dark text-white rounded-top"><a class="whitelink" href="{% url 'solving:deleteExercice' exercice.id %}">DELETE</a></span></p>
+          </h6>
         </div>
-
         <div class="card-block exercice-content">
           <p class="card-text">{{ exercice.content | linebreaks }}</p>
         </div>
@@ -42,17 +48,24 @@
   </div>
 </div>
 
-<input type="checkbox" id="my_checkbox" style="display:none;">
 
 
-
-<div id="hidden">
   <div class="container">
+    <div class="row justify-content-center  wrath-content-box">
+        <div class="col-12 d-flex justify-content-center">
+          <h1 class="display-3">SOLUTION</h1>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <button class="btn btn-primary btn-outline-dark btn-lg" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Post Solution</button>
+        </div>
+      </div>
+    </div>
+    <div class="collapse" id="collapseExample">
     <div class="row justify-content-center">
       <div class="well">
         <div class="col">
           <div class="col-12 d-flex justify-content-center">
-            <h1>New Solution</h1><br />
+            <h1>Post Solution</h1><br />
           </div>
           <div class="col-12 d-flex justify-content-center" align="center">
             <form action="{% url 'solving:postSolution' exercice.id %}" method="post" enctype="multipart/form-data" class="form">
@@ -63,16 +76,24 @@
               <div class="form-group">
                 {{ form.content }}
               </div>
-              <div class="fileUpload btn btn-primary">
-                <span>Upload</span>
+              <div class="fileUpload btn btn-outline-dark">
+                <span>Upload File</span>
                 {{ form.file }}
               </div>
-              <div class="form-group">
-                {{ form.captcha }}
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <div class="form-group">
+                    {{ form.captcha }}
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg">
+                      Submit
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button type="submit" class="btn btn-success">
-                Submit
-              </button>
             </form>
           </div>
         </div>
@@ -81,7 +102,9 @@
   </div>
 </div>
 
-<label for="my_checkbox">Show/hide</label>
+
+
+
 
   <div class="container">
     {% for solution in solutions %}
@@ -94,7 +117,14 @@
         <div class="col-10 d-flex justify-content-center">
           <div class="card text-black bg-light mb-3 w-75">
             <div class="card-header exercice-header">
-              <h4 class="card-title text-center">{{ solution.title }} </br>{% ratings solution 10 10%}</h4>
+              <h4 class="card-title text-center">
+                {{ solution.title }} </br>
+                {% ratings solution 10 10%}</br>
+              </h4>
+              <h6 class="card-title text-center">
+                <p><span class="bg-success border border-dark text-white rounded-top"><a class="whitelink" href="{% url 'solving:editSolution' solution.id %}">EDIT</a></span>
+                  <span class="bg-danger border border-dark text-white rounded-top"><a class="whitelink" href="{% url 'solving:deleteSolution' solution.id %}">DELETE</a></span></p>
+              </h6>
             </div>
             <div class="card-block exercice-content">
               <p class="card-text">{{ solution.content | linebreaks }}</p>

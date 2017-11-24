@@ -12,39 +12,44 @@
 
 {% block content %}
 
-
 <div class="container">
   <div class="row justify-content-cente wrath-content-box">
     <div class="col-12 d-flex justify-content-center" >
-      <h1 class="display-3">LOGIN</h1>
+      <h1 class="display-3">REGISTER</h1>
     </div>
     <div class="col-12 d-flex justify-content-center">
-      {% if form.errors %}
-        <p>Your username and password didn't match. Please try again.</p>
-      {% endif %}
     </div>
   </div>
   <div class="row justify-content-center">
     <div class="well">
       <div class="col">
         <div class="col-12 d-flex justify-content-center" align="center">
-          <form action="{% url 'login' %}" method="post" class="form">
+          <form action="{% url 'signup' %}" method="post" class="form">
             {% csrf_token %}
             <div class="form-group">
               {{ form.username }}
             </div>
             <div class="form-group">
-              {{ form.password }}
+              <div class="input-group mb-2 mb-sm-0">
+                <div class="input-group-addon">@</div>
+                {{ form.email }}
+              </div>
+            </div>
+            <div class="form-group">
+              {{ form.password1 }}
+            </div>
+            <div class="form-group">
+              {{ form.password2 }}
             </div>
             <div class="form-group">
               {# Assumes you setup the password_reset view in your URLconf #}
-              <p><a href="{% url 'signup' %}">Register</a> | <a href="{% url 'password_reset' %}">Lost password?</a></p>
+              <p><a href="{% url 'login' %}">Login</a></p>
             </div>
-            <div class="rowjustify-content-center">
+            <div class="row align-items-center  justify-content-center">
               <div class="col-auto">
                 <div class="form-group">
-                  <button type="submit" class="btn btn-success btn-lg" value="login">
-                    Login
+                  <button type="submit" class="btn btn-success btn-lg">
+                    Submit
                   </button>
                 </div>
               </div>

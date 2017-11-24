@@ -6,25 +6,34 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+  <link rel="stylesheet" href="{% static 'solving/css/category.css'}">
   <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumb %}
   <ol class="breadcrumb">
-    <li><a href="{% url 'solving:index' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'solving:index' %}">Home</a></li>
 
-    {{ instance.get_slug_list }}
-    {% for i in instance.get_slug_list %}
-    <li><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
+    {% for i in category.get_slug_list %}
+    <li class="breadcrumb-item"><a href="{% url 'solving:category' i %}">{{ i | get_name }}</a></li>
     {% endfor %}
   </ol>
 {% endblock %}
 
 {% block subcat %}
-  {% if  instance.children.all %}
+  {% if  category.children.all %}
     <div class="container">
       <div class="row">
-        {% for i in instance.children.all %}
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action active">
+            Cras justo odio
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">Dapibus ac facilisis in</a>
+          <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
+          <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
+          <a href="#" class="list-group-item list-group-item-action disabled">Vestibulum at eros</a>
+        </div>
+        {% for i in category.children.all %}
           <div class="col-md-3">
             <a href="{{ i.slug }}"> {{ i.name }} </a>
           </div>
@@ -62,7 +71,7 @@
           <div class="col" align="center">
             <h1 style="margin: 0px">New Exercice</h1>
           </div>
-          <form action="{% url 'solving:postExercice' instance.id %}" method="post" enctype="multipart/form-data" class="form">
+          <form action="{% url 'solving:postExercice' category.id %}" method="post" enctype="multipart/form-data" class="form">
             {% csrf_token %}
             {{ form }}
             <!-- <div class="form-group">

@@ -1,40 +1,77 @@
 {% extends 'solving/base.html' %}
 
+{% load static %}
+{% load ratings %}
+{% load namify %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+  <link rel="stylesheet" href="{% static 'solving/css/category.css' %}">
+  <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+{% endblock %}
+
 {% block breadcrumb %}
-  <div class="text-center">
-    <ol class="breadcrumb">
-      <li><a href="/solving/">Home</a></li>
-    </ol>
-  </div>
+  <ol class="breadcrumb navbar-dark bg-dark text-white">
+    <li class="breadcrumb-item"><a class="text-white" href="{% url 'solving:index' %}">Home</a></li>
+  </ol>
 {% endblock %}
 
 {% block subcat %}
   {% if  categories.all %}
-    <div class="container">
-      <div class="row">
-        {% for i in categories %}
-          <div class="col-md-3">
-            <a href="category/{{ i.slug }}"> {{ i.name }} </a>
-          </div>
-        {% endfor %}
+  <div class="container">
+    <div class="row justify-content-center wrath-content-box">
+      <div class="col-12 d-flex justify-content-center" >
+        <h1 class="display-3">CATEGORIES</h1>
+      </div>
+      <div class="col-12 d-flex justify-content-center" >
+        <div class="list-group">
+          {% for i in categories %}
+            {% if forloop.counter|divisibleby:2 %}
+              <a href="{% url 'solving:category' i.slug %}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action list-group-item-light">
+                {{ i.name }}
+                <!-- <span class="badge badge-primary badge-pill category-badge">10</span> -->
+              </a>
+            {% else %}
+              <a href="{% url 'solving:category' i.slug %}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action list-group-item-info">
+                {{ i.name }}
+                  <!-- <span class="badge badge-primary badge-pill category-badge">12</span> -->
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     </div>
-    <br><hr>
+  </div>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-md-center">
-  <div class="col-12 col-md-auto">
-    {% if latest_exercice_list %}
-      <ul>
-        {% for exercice in latest_exercice_list %}
-          <li><a href="{% url 'solving:detail' exercice.id %}">{{ exercice.title }}</a></li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No exercices are available.</p>
-    {% endif %}
+{% if latest_exercice_list %}
+    <div class="container">
+      <div class="row justify-content-center wrath-content-box">
+        <div class="col-12 d-flex justify-content-center" >
+          <h1 class="display-3">EXERCICES</h1>
+        </div>
+        <div class="col-12 d-flex justify-content-center" >
+          <div class="list-group">
+            {% for jeej in latest_exercice_list %}
+              {% if forloop.counter|divisibleby:2 %}
+                <a href="{% url 'solving:category' jeej.slug %}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action list-group-item-light">
+                  {{ jeej.title }}
+                  <span class="badge badge-primary badge-pill category-badge">Solutions : {{ jeej.count_solution }}</span>
+                </a>
+              {% else %}
+                <a href="{% url 'solving:category' jeej.slug %}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action list-group-item-info">
+                  {{ jeej.title }}
+                  <span class="badge badge-primary badge-pill category-badge">Solutions : {{ jeej.count_solution }}</span>
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+{% endif %}
+
 {% endblock %}

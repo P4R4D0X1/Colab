@@ -28,6 +28,9 @@ class Exercice(models.Model):
             num += 1
         return unique_slug
 
+    def count_solution(self):
+        return Solution.objects.filter(exercice=self).count()
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = self.get_unique_slug()
@@ -49,7 +52,7 @@ class Category(MPTTModel):
     name = models.CharField(max_length=50, unique=True)
     have_exercice = models.BooleanField(default=1)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
-    slug = models.SlugField(null=True)
+    slug = models.SlugField(blank=True, null=True)
 
     class MPTTMeta:
         order_insertion_by = ['name']
@@ -84,6 +87,9 @@ class Category(MPTTModel):
         for i in range(len(ancestors)):
             slugs.append('/'.join(ancestors[:i+1]))
         return slugs
+
+    def count_exercice(self):
+        return Exercice.objects.filter(category=self).count()
 
     def save(self, *args, **kwargs):
         if not self.slug:

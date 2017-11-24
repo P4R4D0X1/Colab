@@ -1,3 +1,17 @@
+.logo {
+    margin: 0px 0px 10px 0px;
+}
+
+.breadcrumb {
+     border-radius: 15px 50px !important;
+     padding: 12px 25px 12px 25px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: #FFFFFF;
+  content: "/\00a0";
+}
+
 .wrath-content-box {
     margin: 0px 0px 15px;
 }
@@ -21,13 +35,14 @@
 }
 
 html, body{
-  background: #F2F2F2;
+  background: #FFFFFF;
+  margin: 25px
 }
 
 .fileUpload {
     position: relative;
     overflow: hidden;
-    margin: 10px;
+    margin: 0px 0px 16px 0px;
 }
 
 .fileUpload input.upload {
@@ -42,9 +57,16 @@ html, body{
     filter: alpha(opacity=0);
 }
 
-#hidden {
-  display: none;
+.category-badge {
+  margin: 0px 0px 0px 10px;
 }
-:checked + #hidden {
-  display: block;
+
+p{
+  margin: 0px 0px 0px 0px;
 }
+
+mark {
+  padding: 0px 0px 0px 0px;
+}
+
+a.whitelink, a.whitelink:hover, a.whitelink:active, a.whitelink:visited { color: white; }

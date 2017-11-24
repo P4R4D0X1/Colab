@@ -14,7 +14,18 @@
   </head>
   <body>
     <div class="container">
-      <div class="row justify-content-center">
+      {% if request.user.is_authenticated %}
+      <div class="row justify-content-center wrath-content-box">
+        <div class="col-6" align="center">
+          <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary text-white">
+            <p><span class="bg-dark border border-dark">USER</span><span class="bg-info border border-dark rounded-right"> {{ request.user.username|upper }}</span>
+              <span class="bg-dark border border-dark">LAST LOGIN</span><span class="bg-info border border-dark rounded-right"> {{ request.user.last_login|date:"d M Y" }}</span>
+              <span class="bg-danger border border-dark text-white"><a class="whitelink" href="{% url 'logout' %}">LOGOUT</a></span></p>
+          </nav>
+        </div>
+      </div>
+        {% endif %}
+      <div class="row justify-content-center logo">
         <img src="{% static 'solving/image/logo_colab_2_small.png' %}" class="img-fluid" alt="Responsive image">
       </div>
       <div class="row justify-content-center">
@@ -32,5 +43,8 @@
       {% endblock %}
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
   </body>
 </html>

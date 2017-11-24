@@ -1,0 +1,57 @@
+{% extends 'solving/base.html' %}
+
+{% load static %}
+{% load ratings %}
+{% load namify %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+  <link rel="stylesheet" href="{% static 'solving/css/category.css' %}">
+  <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+  <ol class="breadcrumb  navbar-dark bg-primary class=" text-white"">
+    <li class="breadcrumb-item"><a class="text-white" href="{% url 'solving:index' %}">Home</a></li>
+  </ol>
+{% endblock %}
+
+{% block content %}
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="well">
+        <div class="col">
+          <div class="col-12 d-flex justify-content-center">
+            <h1 class="display-3">Edit Exercice</h1><br />
+          </div>
+          <div class="col-12 d-flex justify-content-center" align="center">
+            <form action="{% url 'solving:editExercice' exercice.id %}" method="post" enctype="multipart/form-data" class="form">
+              {% csrf_token %}
+              <div class="form-group">
+                {{ form.title }}
+              </div>
+              <div class="form-group">
+                {{ form.content }}
+              </div>
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <div class="form-group">
+                    {{ form.captcha }}
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg">
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock %}
